@@ -1,0 +1,17 @@
+# Scripts and sources are always LF, in the repository, in checkouts and in `git archive`
+# tarballs, even when made on Windows (a CRLF script fails on Linux with "invalid option name").
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.rs text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.sql text eol=lf
+*.service text eol=lf
+*.timer text eol=lf
+*.png binary
+*.gz binary

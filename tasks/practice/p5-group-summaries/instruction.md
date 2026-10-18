@@ -1,0 +1,1 @@
+Summarize each of the three files in /workspace/docs (a.txt, b.txt, c.txt) in one line each and write the three lines to /workspace/summaries.txt, one per file, in order. You may start helper agents (spawn_agent) to read files in parallel; helpers can read files and message you with their one-line summary (send_message), and you collect them with recv_message.

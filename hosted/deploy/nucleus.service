@@ -1,0 +1,34 @@
+[Unit]
+Description=MonkeyITM nucleus host (real, contained agent runs for the site)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=nucleus
+Group=nucleus
+WorkingDirectory=/opt/monkeyitm
+EnvironmentFile=/etc/nucleus/nucleus.env
+ExecStart=/usr/bin/python3 /opt/monkeyitm/hosted/nucleus_host.py
+Restart=on-failure
+RestartSec=5
+
+# The service is the only thing here, and a run is the thing under test: keep the unit tight.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ReadWritePaths=/var/lib/nucleus /opt/monkeyitm/logs
+# Runs use bubblewrap, which needs user namespaces: do not set RestrictNamespaces or
+# PrivateUsers here, and see docs/HOSTED_REAL_TEST.md if the host's kernel disables them.
+MemoryMax=3G
+TasksMax=512
+LimitNOFILE=4096
+# Stop the whole control group (every agent and helper) when the service stops.
+KillMode=control-group
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

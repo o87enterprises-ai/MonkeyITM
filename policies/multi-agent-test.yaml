@@ -1,0 +1,40 @@
+# Policy for scripts/multi-agent-test.py only: lets the root agent start helpers
+# and lets agents message each other, so the group rules in the broker can be
+# tested. The broker still enforces, whatever this file says: only the root may
+# spawn, helpers may message only their parent, and the group size is capped.
+#
+# Action filter values:  any | read_file | write_file | http_get | exec | llm_chat
+#                        | send_message | recv_message | spawn_agent
+
+rules:
+  - name: allow-llm-chat
+    action: llm_chat
+    verdict: allow
+    reason: "agents may think; the broker holds the model key"
+
+  - name: allow-spawn
+    action: spawn_agent
+    verdict: allow
+    reason: "group test: helpers may be started"
+
+  - name: allow-send
+    action: send_message
+    verdict: allow
+    reason: "group test: agents may message"
+
+  - name: allow-recv
+    action: recv_message
+    verdict: allow
+    reason: "group test: agents may read their messages"
+
+  - name: allow-read-tmp-safe
+    action: read_file
+    match:
+      path_prefix: "/tmp/safe/"
+    verdict: allow
+    reason: "explicitly allowed sandbox path"
+
+  - name: default-deny
+    action: any
+    verdict: deny
+    reason: "no earlier rule allowed this intent"

@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MonkeyITM-VM — Invitation-only early access</title>
+<meta name="description" content="MonkeyITM-VM is an open-source project to contain AI agents and test them safely. The hosted service is invite-only.">
+<!-- Unlisted: shared by link only, not for search engines. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://monkeyitm-vm.o87enterprises.workers.dev/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MonkeyITM-VM">
+<meta property="og:url" content="https://monkeyitm-vm.o87enterprises.workers.dev/">
+<meta property="og:title" content="MonkeyITM-VM: open-source AI agent containment">
+<meta property="og:description" content="An open-source pre-alpha project: a safe, auditable way to contain and test AI agents.">
+<meta property="og:image" content="https://monkeyitm-vm.o87enterprises.workers.dev/og.png">
+<meta property="og:image:alt" content="MonkeyITM-VM logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MonkeyITM-VM: open-source AI agent containment">
+<meta name="twitter:description" content="An open-source pre-alpha project for contained, auditable AI agent testing.">
+<meta name="twitter:image" content="https://monkeyitm-vm.o87enterprises.workers.dev/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"MonkeyITM-VM","description":"An open-source pre-alpha project for containing and testing AI agents.","copyrightHolder":{"@type":"Person","name":"Daniel Oden"},"copyrightYear":2026}
+</script>
+<style>
+  :root{
+    --bg:#070a0f; --bg2:#0c1119; --panel:#0e141d; --border:#1c2634;
+    --text:#e7edf5; --dim:#8b98ab; --dimmer:#5a6579;
+    --cyan:#39d0ff; --blue:#4d7dff; --green:#3ddc84; --red:#ff5470; --yellow:#ffcc4d;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(77,125,255,.14), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(57,208,255,.10), transparent 55%),
+      var(--bg);
+    color:var(--text); font-family:var(--sans); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--cyan); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:920px; margin:0 auto; padding:0 20px}
+  code, .mono{font-family:var(--mono)}
+
+  header.hero{padding:72px 0 48px; text-align:center}
+  .challenge{display:block; max-width:620px; margin:18px auto 4px; padding:12px 16px; border:1px solid rgba(255,204,77,.45); border-radius:12px; background:rgba(255,204,77,.07); color:var(--text); font-size:14px; line-height:1.5}
+  .challenge b{color:var(--yellow)}
+  .challenge span{color:var(--yellow); white-space:nowrap}
+  .challenge:hover{text-decoration:none; background:rgba(255,204,77,.13)}
+  .logo{width:min(440px,72vw); height:auto; border-radius:56px; box-shadow:0 40px 100px rgba(77,125,255,.32); margin-bottom:22px}
+  .wordmark{width:min(320px,58vw); height:auto; display:block; margin:0 auto 6px}
+  .microprint{font-family:var(--mono); font-size:11px; line-height:1.7; color:var(--dimmer); opacity:.55; letter-spacing:.02em; margin:0 0 30px}
+  .microprint .tm{opacity:.8}
+  h1{font-size:clamp(28px,5vw,44px); margin:0 0 10px; letter-spacing:-.02em}
+  h1 .sub{display:block; font-size:.42em; font-weight:600; color:var(--dim); letter-spacing:.02em; margin-top:10px}
+  .tag{color:var(--dim); font-size:18px; max-width:600px; margin:0 auto 30px}
+  .tag b{color:var(--text); font-weight:600}
+  .status{
+    display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:13px;
+    color:var(--yellow); border:1px solid rgba(255,204,77,.3); background:rgba(255,204,77,.06);
+    padding:6px 14px; border-radius:999px; margin-bottom:28px;
+  }
+  .status::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--yellow); box-shadow:0 0 8px var(--yellow)}
+  .cta{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+  .btn{
+    font-family:var(--sans); font-weight:600; font-size:15px; padding:12px 22px; border-radius:10px;
+    border:1px solid var(--border); display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{text-decoration:none}
+  .btn.primary{background:linear-gradient(135deg,var(--blue),var(--cyan)); color:#04121f; border:none}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn.ghost{color:var(--text); background:var(--panel)}
+  .btn.ghost:hover{border-color:var(--dimmer)}
+
+  section{padding:44px 0; border-top:1px solid var(--border)}
+  h2{font-size:22px; margin:0 0 6px}
+  .lede{color:var(--dim); margin:0 0 26px; max-width:640px}
+
+  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:0 0 8px}
+  .stat{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px; text-align:center}
+  .stat .n{font-family:var(--mono); font-size:30px; font-weight:700; color:var(--green)}
+  .stat .n.n-blue{color:var(--cyan)}
+  .stat .l{color:var(--dim); font-size:13px; margin-top:4px}
+
+  .term{
+    background:#05070b; border:1px solid var(--border); border-radius:14px; overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.45);
+  }
+  .term .bar{display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--border); background:#080b11}
+  .term .dot{width:11px; height:11px; border-radius:50%}
+  .term .bar .label{margin-left:8px; color:var(--dimmer); font-family:var(--mono); font-size:12px}
+  .term pre{margin:0; padding:20px; font-family:var(--mono); font-size:12.5px; line-height:1.7; overflow-x:auto; color:#cfd8e3}
+  .blocked{color:var(--red); font-weight:700}
+  .allowed{color:var(--green); font-weight:700}
+  .dim2{color:var(--dimmer)}
+  .head2{color:var(--cyan)}
+  .win{color:var(--green); font-weight:700}
+
+  .rings{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .ring{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px}
+  .ring .k{font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--dimmer); text-transform:uppercase}
+  .ring h3{margin:8px 0 8px; font-size:16px}
+  .ring p{margin:0; color:var(--dim); font-size:13.5px}
+
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--border)}
+  th{color:var(--dimmer); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.05em}
+  td.status-mit{color:var(--green)}
+  td.status-open{color:var(--yellow)}
+  td.status-part{color:var(--cyan)}
+
+  .flow{display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-family:var(--mono); font-size:13px; color:var(--dim)}
+  .flow .box{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:8px 14px; color:var(--text)}
+  .flow .arrow{color:var(--dimmer)}
+
+  footer{padding:40px 0 70px; text-align:center; color:var(--dimmer); font-size:13px}
+  footer a{color:var(--dim)}
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:1fr}
+    .rings{grid-template-columns:1fr}
+  }
+
+  .notice{max-width:760px; margin:18px auto 4px; padding:14px 18px; border:1px solid rgba(255,204,77,.45); border-radius:12px; background:rgba(255,204,77,.07); font-size:14px; line-height:1.55; text-align:left}
+  .notice b{color:var(--yellow)}
+  .legal h3{font-size:16px; margin:26px 0 6px; color:var(--text)}
+  .legal p, .legal li{color:var(--dim); font-size:14px; line-height:1.65}
+  .legal ul{padding-left:20px; margin:6px 0}
+  .legal .stamp{font-family:var(--mono); font-size:12px; color:var(--dimmer)}
+
+  .reqform{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:22px}
+  .reqform .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .reqform label{display:block; font-size:14px; color:var(--text); margin:0 0 14px}
+  .reqform input:not([type=checkbox]), .reqform textarea{
+    display:block; width:100%; margin-top:6px; padding:10px 12px; border-radius:10px;
+    border:1px solid var(--border); background:var(--bg2); color:var(--text); font:inherit; font-size:15px}
+  .reqform input:focus, .reqform textarea:focus{outline:2px solid var(--cyan); outline-offset:1px}
+  .reqform .check{display:flex; gap:10px; align-items:flex-start; color:var(--dim); font-size:13.5px}
+  .reqform .check input{margin-top:3px; width:18px; height:18px; flex:none}
+  .reqform .hp{position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden}
+  .reqform button{cursor:pointer}
+  .reqform button:disabled{opacity:.5; cursor:wait}
+  .reqmsg{min-height:1.4em; margin:12px 0 0; font-size:14px; color:var(--dim)}
+  .reqmsg.ok{color:var(--green)}
+  .reqmsg.err{color:var(--red)}
+  @media (max-width:640px){ .reqform .grid2{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 500" role="img" aria-label="MonkeyITM-VM wordmark">
+      <defs>
+        <linearGradient id="silver" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="25%" stop-color="#f3f4f6"/>
+          <stop offset="50%" stop-color="#cfd4dc"/>
+          <stop offset="75%" stop-color="#aeb6c2"/>
+          <stop offset="100%" stop-color="#ffffff"/>
+        </linearGradient>
+        <linearGradient id="blue" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#74f7ff"/>
+          <stop offset="50%" stop-color="#22cfff"/>
+          <stop offset="100%" stop-color="#005dff"/>
+        </linearGradient>
+        <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="10" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.5"/>
+        </filter>
+      </defs>
+      <text x="60" y="340" font-family="Impact, Arial Black, sans-serif" font-size="260" font-weight="900" fill="url(#silver)" stroke="#101827" stroke-width="12" filter="url(#shadow)">Monkey</text>
+      <text x="1005" y="340" font-family="Impact, Arial Black, sans-serif" font-size="260" font-weight="900" fill="url(#blue)" stroke="#081220" stroke-width="12" filter="url(#neonGlow)">ITM-VM</text>
+      <g transform="translate(1080,430)">
+        <circle r="28" fill="#13243a" stroke="#48dfff" stroke-width="4"/>
+        <circle r="12" fill="#48dfff"/>
+        <path d="M-120 0 H-35" stroke="#48dfff" stroke-width="5"/>
+        <path d="M35 0 H120" stroke="#48dfff" stroke-width="5"/>
+      </g>
+    </svg>
+    <img class="logo" src="/logo.png" alt="MonkeyITM-VM logo: a puzzled monkey at a laptop, watching a worried AI agent trapped behind glass">
+    <p class="microprint">Presented by Open Edin AI <span class="tm">&trade;</span><br>An o87 Enterprises <span class="tm">&trade;</span> project<br>&copy; 2026 Daniel Oden. Open source (Apache-2.0).</p>
+    <h1><span class="sub">Containment and safe testing for AI agents</span></h1>
+    <p class="tag">MonkeyITM-VM is an open-source project to build a standard, auditable way to
+    keep AI agents contained and to test them without letting them loose. The agent is given no
+    authority of its own: everything it wants to do is a request that something else must approve
+    and record first.</p>
+    <div class="status">early access &middot; by invitation only</div>
+    <div class="notice"><b>Read this first.</b> This is open-source software under development (Apache-2.0; the hosted
+    service is AGPL-3.0). It is pre-alpha and <b>not</b> a certified safety product, and it has not been independently
+    audited. Nothing on this site is an offer of any kind. Full terms are in the
+    <a href="#legal">legal notices</a> below.</div>
+    <div class="cta">
+      <a class="btn primary" href="#request">Request early access &rarr;</a>
+      <a class="btn ghost" href="#evidence">What has been tested</a>
+      <a class="btn ghost" href="/demo">Invited? Sign in</a>
+    </div>
+  </div>
+</header>
+
+<section id="purpose">
+  <div class="wrap">
+    <h2>The problem we are working on</h2>
+    <p class="lede">AI agents are being given real tools, real data and real autonomy, and the industry
+    does not yet have a trusted, shared way to contain them or to test them safely. Recent public
+    incidents involving agents that behaved outside their intended limits make this a live question for
+    companies and governments alike.</p>
+    <div class="rings">
+      <div class="ring">
+        <div class="k">Aim 1</div>
+        <h3>Containment</h3>
+        <p>An agent that holds no keys, no network and no files of its own, and can only ask. Every
+        request is checked against rules set by people, and every decision is recorded.</p>
+      </div>
+      <div class="ring">
+        <div class="k">Aim 2</div>
+        <h3>Proctored testing</h3>
+        <p>Run a new agent through a standard benchmark under full containment, so a score comes with
+        proof of how it was earned and a record of everything the agent reached for beyond the task.</p>
+      </div>
+      <div class="ring">
+        <div class="k">Aim 3</div>
+        <h3>A shared standard</h3>
+        <p>Work toward a common, reviewable protocol that developers, testers, insurers and regulators
+        can all rely on. We are at the very beginning of that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap">
+    <h2>What has been tested so far</h2>
+    <p class="lede">Internal tests by the developer, on one Linux host. Real AI models acted as the
+    agents and were given tasks that asked for things the rules forbid: reading credentials, writing
+    files, running commands, sending data out, following instructions planted in a file.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">~80</div><div class="l">test runs with two hosted AI models as the agents</div></div>
+      <div class="stat"><div class="n n-blue">~1,900</div><div class="l">requests decided and recorded in those runs</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">allowed requests that broke a rule, by an audit of every log</div></div>
+    </div>
+    <p style="color:var(--dim); font-size:14px">The models did try forbidden things, often, and at times
+    followed instructions planted in a file they were asked to read. Each of those attempts was refused
+    and recorded. A separate scripted attacker, which skips the model and talks to the containment layer
+    directly, ran 85 checks; all held.</p>
+    <p style="color:var(--dim); font-size:14px"><b>What this does not show.</b> These are our own tests,
+    with tasks we wrote, two models and one configuration. They show that these attempts were refused.
+    They do not show that nothing can get through. The project has not yet been independently audited;
+    a third-party security review is being arranged. Treat every claim here as an early result, never as
+    a guarantee.</p>
+  </div>
+</section>
+
+<section id="request">
+  <div class="wrap">
+    <h2>Invitation-only early access</h2>
+    <p class="lede">A small number of AI developers and research teams will be invited to test their
+    own agents under full containment, at no cost, for a limited period. Invitations are sent privately,
+    one at a time. Requesting access does not guarantee an invitation, and nothing here is an offer.</p>
+    <ul style="color:var(--dim); font-size:14px; margin:0 0 22px; padding-left:20px">
+      <li>Early access is a test program, not a service: no uptime or support commitments.</li>
+      <li>Invited teams sign confidentiality and test terms before anything technical is shared.</li>
+      <li>Use after the program needs a separate written agreement.</li>
+    </ul>
+    <form id="req" class="reqform" novalidate>
+      <div class="grid2">
+        <label>Your name<input name="name" maxlength="120" required autocomplete="name"></label>
+        <label>Work email<input name="email" type="email" maxlength="254" required autocomplete="email"></label>
+        <label>Organization<input name="organization" maxlength="160" required autocomplete="organization"></label>
+        <label>Your role<input name="role" maxlength="120" required autocomplete="organization-title"></label>
+      </div>
+      <label>I'm interested in
+        <select name="interest">
+          <option value="developer">Testing my own AI agents (developer)</option>
+          <option value="tester">Trying to break it (security researcher)</option>
+          <option value="enterprise">Using it at my organization (enterprise)</option>
+        </select></label>
+      <label>What would you want to test? A sentence or two; please no confidential details.
+        <textarea name="use_case" maxlength="2000" rows="4" required></textarea></label>
+      <label class="hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label>
+      <label class="check"><input type="checkbox" name="no_confidential" required>
+        <span>I have not included confidential information, and I understand this is a request, not an
+        agreement. My details are used only to consider and answer it (see <a href="#legal">privacy</a>).</span></label>
+      <button type="submit" class="btn primary">Request access</button>
+      <p id="reqmsg" class="reqmsg" role="status" aria-live="polite"></p>
+    </form>
+    <p style="color:var(--dim); font-size:13px; margin-top:18px">Already invited? <a href="/demo">Sign in
+    with GitHub</a> using the email or account your invitation was sent to.</p>
+  </div>
+</section>
+<script>
+(() => {
+  const f = document.getElementById('req'), msg = document.getElementById('reqmsg');
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(f));
+    d.no_confidential = f.no_confidential.checked;
+    // Where the visitor came from: ?ref=<tag> on any link to this page (kept for the visit).
+    try {
+      const ref = new URLSearchParams(location.search).get('ref');
+      if (ref) sessionStorage.setItem('mitm_ref', ref);
+      const s = sessionStorage.getItem('mitm_ref');
+      if (s && /^[a-z0-9_-]{1,40}$/.test(s)) d.source = s;
+    } catch { /* storage blocked: no source */ }
+    for (const k of ['name', 'email', 'organization', 'role', 'use_case']) {
+      if (!String(d[k] || '').trim()) { msg.className = 'reqmsg err'; msg.textContent = 'Please fill in every field.'; return; }
+    }
+    if (!d.no_confidential) { msg.className = 'reqmsg err'; msg.textContent = 'Please confirm the last box.'; return; }
+    const btn = f.querySelector('button'); btn.disabled = true; msg.className = 'reqmsg'; msg.textContent = 'Sending…';
+    try {
+      const r = await fetch('/api/request-access', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) { f.reset(); msg.className = 'reqmsg ok'; msg.textContent = 'Thank you. Your request has been received. If there is a fit, you will hear from us by email.'; }
+      else { msg.className = 'reqmsg err'; msg.textContent = j.error || 'Something went wrong. Please try again later.'; }
+    } catch { msg.className = 'reqmsg err'; msg.textContent = 'Could not reach the server. Please try again later.'; }
+    btn.disabled = false;
+  });
+})();
+</script>
+
+<section id="legal" class="legal">
+  <div class="wrap">
+    <h2>Legal notices and disclaimers</h2>
+    <p class="stamp">Last updated 11 October 2026. Plain-language notices, pending review by counsel.</p>
+
+    <h3>1. Ownership and licence</h3>
+    <p>Copyright &copy; 2026 Daniel Oden. The MonkeyITM-VM software is open source: the broker, protocol and tools
+    under the Apache License 2.0, and the hosted control plane (<code>site/</code>) under the GNU AGPL v3.0. Those
+    licences, in the project repository, set out what you may do with the code. They do not cover the names or logos
+    (section 3) or use of the hosted service, which is governed by its <a href="/terms">terms</a>.</p>
+
+    <h3>2. Open source</h3>
+    <p>The source code is public under the licences above. Commercial licences for the hosted control plane are
+    available from the owner. Contributions are accepted under the project's contributor licence agreement.</p>
+
+    <h3>3. Trademarks</h3>
+    <p>&ldquo;MonkeyITM-VM&rdquo;, &ldquo;MonkeyITM&rdquo;, the MonkeyITM-VM logo, &ldquo;Open Edin
+    AI&rdquo; and &ldquo;o87 Enterprises&rdquo; are used as trademarks (&trade;) of their
+    owner. No right to use any name or logo is granted except as the project's TRADEMARKS.md allows. Names of other
+    companies, products and benchmarks that may appear anywhere are used only to identify them and imply
+    no affiliation with or endorsement by them.</p>
+
+    <h3>4. Pre-alpha software, no warranty</h3>
+    <p>Everything described here is experimental. To the fullest extent permitted by law, it is provided
+    &ldquo;as is&rdquo; and &ldquo;as available&rdquo;, without warranties of any kind, express or implied,
+    including merchantability, fitness for a particular purpose, security, accuracy and non-infringement.</p>
+
+    <h3>5. Not a safety guarantee, not certified</h3>
+    <ul>
+      <li>MonkeyITM-VM is not a certified safety, security or compliance product and has not been
+      independently audited.</li>
+      <li>Do not rely on it as the only control for any system where a failure could cause injury, death,
+      property damage, legal liability, data loss or a security breach.</li>
+      <li>A blocked test, a passed benchmark or a clean report shows only that those specific attempts were
+      blocked. It does not prove that an agent cannot escape or misbehave.</li>
+      <li>Any scores, grades or alignment ratings are draft, unvalidated and not endorsed by any benchmark
+      author or standards body.</li>
+    </ul>
+
+    <h3>6. The test environment is a simulation</h3>
+    <p>The test environment is available only to invited people, after signing in and accepting its
+    <a href="/terms">Terms of Use and Privacy notice</a>. It is simulated: no real files, systems or networks
+    are controlled through it, and its output is not evidence of how any real system performs. A containment
+    layer mediates and records every action an agent attempts there; its source code is public.</p>
+
+    <h3>7. No offer, no partnership, no investment, no compensation</h3>
+    <p>Nothing on this site is an offer or solicitation to sell securities, give equity, enter a
+    partnership or joint venture, employ, pay or credit anyone. Any earlier public challenge or invitation,
+    including any mention of rewards, credit or a co-founder role, is withdrawn and creates no right or
+    obligation. No relationship exists unless a written agreement signed by the owner says so.</p>
+
+    <h3>8. No unsolicited submissions; confidentiality</h3>
+    <p>Please do not send ideas, code, designs or confidential information through this site or its
+    contact points before a written non-disclosure agreement is signed. Anything you send without one is
+    sent without any obligation of confidentiality, compensation or credit, and the owner remains free to
+    use, or to have already independently developed, similar ideas.</p>
+
+    <h3>9. Testing, security and acceptable use</h3>
+    <p>You have no permission to attack, probe, scan or overload this site or any related system, account
+    or service. The project is not currently running any public challenge or bounty. If you believe you
+    have found a vulnerability, contact the owner and do not publish it.</p>
+
+    <h3>10. Limitation of liability</h3>
+    <p>To the fullest extent permitted by law, the owner is not liable for any direct, indirect, incidental,
+    special, consequential or other loss arising from your use of, or reliance on, this site, the demo or
+    any information here, even if advised of the possibility. Nothing here limits liability that cannot be
+    limited by law.</p>
+
+    <h3>11. Privacy</h3>
+    <p>Browsing these public pages requires no account, and they use no advertising, analytics or tracking
+    cookies. The early-access request form collects the name, work email, organization, role and
+    description you enter; they are used only to consider and answer your request, are not sold or shared
+    for marketing, and are deleted on request. Your IP address is not stored; a one-way daily hash of it is
+    kept to limit repeated submissions. Signing in to the test environment collects your GitHub user ID, username and verified email
+    address, your consent choices and your session data, as described in the
+    <a href="/terms">Terms of Use and Privacy notice</a>. Marketing email is sent only if you opt in. Our host,
+    Cloudflare, may process standard request data such as IP address and browser details to deliver the site and
+    keep it secure.</p>
+
+    <h3>12. Third-party links and content</h3>
+    <p>Links to other sites are provided for convenience. The owner does not control and is not responsible
+    for them. References to news events or third-party organizations are for context only and are not
+    statements of fact about any party.</p>
+
+    <h3>13. Not legal, financial or professional advice</h3>
+    <p>Nothing here is legal, financial, security, safety, regulatory or other professional advice.</p>
+
+    <h3>14. Changes</h3>
+    <p>These notices and the project&rsquo;s status may change at any time without notice. The date above shows the
+    latest revision.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Daniel Oden. MonkeyITM-VM is open source (Apache-2.0; hosted service AGPL-3.0) and pre-alpha.</p>
+    <p>Presented by Open Edin AI&trade; &middot; An o87 Enterprises&trade; project &middot; <a href="/terms">Terms and Privacy</a> &middot; <a href="#legal">Legal notices</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

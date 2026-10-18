@@ -1,0 +1,53 @@
+# Default policy for the agent-containment MVP.
+#
+# Evaluation: rules are checked top-to-bottom. First match wins.
+# If no rule matches, the kernel returns deny.
+#
+# Action filter values:  any | read_file | write_file | http_get | exec | llm_chat
+#                        | send_message | recv_message | spawn_agent
+#                          (multi-agent; denied below by default)
+# Verdict values:        allow | deny | approve_required | dry_run
+#
+# `match` predicates are ANDed together. Omitted predicates are ignored.
+
+rules:
+  - name: allow-llm-chat
+    action: llm_chat
+    verdict: allow
+    reason: "agent may think; the broker holds the model key"
+
+  - name: allow-read-tmp-safe
+    action: read_file
+    match:
+      path_prefix: "/tmp/safe/"
+    verdict: allow
+    reason: "explicitly allowed sandbox path"
+
+  - name: approve-read-etc
+    action: read_file
+    match:
+      path_prefix: "/etc/"
+    verdict: approve_required
+    reason: "system config reads require human approval"
+
+  - name: deny-exec
+    action: exec
+    verdict: deny
+    reason: "exec is not permitted in the MVP"
+
+  - name: deny-writes
+    action: write_file
+    verdict: deny
+    reason: "writes are not permitted in the MVP"
+
+  - name: deny-http
+    action: http_get
+    verdict: deny
+    reason: "network egress is not permitted in the MVP"
+
+  # Explicit default. Redundant with the kernel's built-in deny, but kept
+  # here so an auditor reading the file sees the intent at a glance.
+  - name: default-deny
+    action: any
+    verdict: deny
+    reason: "no earlier rule allowed this intent"

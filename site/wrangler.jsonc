@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "monkeyitm-vm",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-26",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    // Gated and account routes go to the Worker; everything else is static.
+    "run_worker_first": ["/api/*", "/v1/*", "/runner/*", "/admin/*", "/demo", "/demo/*", "/demo.html", "/accept", "/account", "/security-agreement", "/challenge"]
+  },
+  // Per-address rate limit (worker/index.js): 300 requests a minute per address, per Cloudflare location.
+  "ratelimits": [{ "name": "RL_IP", "namespace_id": "8701", "simple": { "limit": 300, "period": 60 } }],
+  // The per-session relay (worker/relay.js): SQLite-backed Durable Objects are on the free plan.
+  "durable_objects": { "bindings": [{ "name": "SESSIONS", "class_name": "SessionRelay" }] },
+  "migrations": [{ "tag": "v1-sessions", "new_sqlite_classes": ["SessionRelay"] }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "monkeyitm-vm",
+      "database_id": "f50040e9-8262-447a-8897-9a6f63978f57",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

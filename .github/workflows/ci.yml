@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: fmt
+        run: cargo fmt --all --check
+
+      - name: unit + integration tests
+        run: cargo test --workspace
+
+      - name: install bubblewrap
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q bubblewrap
+          # Ubuntu 24.04 blocks unprivileged user namespaces by default.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: red-team demo (must report 0 escapes)
+        run: |
+          cargo build -p broker
+          yes n | ./target/debug/broker > broker.log 2>&1 &
+          for i in $(seq 1 50); do [ -S /tmp/broker.sock ] && break; sleep 0.1; done
+          bash scripts/run-agent.sh --rogue
+          kill %1 || true
+
+      - name: broker log
+        if: always()
+        run: cat broker.log || true

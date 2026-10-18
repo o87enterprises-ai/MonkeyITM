@@ -1,0 +1,15 @@
+MonkeyITM-VM
+Copyright 2026 Daniel Oden (o87 Enterprises)
+
+This product includes software developed by Daniel Oden for MonkeyITM-VM
+(https://github.com/o87enterprises-ai/MonkeyITM-VM).
+
+Except for the site/ directory, this software is licensed under the Apache License, Version 2.0 (see LICENSE).
+The site/ directory (the hosted control plane) is licensed under the GNU Affero General Public License,
+version 3 (see site/LICENSE). Commercial licences for site/ are available from the copyright holder.
+
+"MonkeyITM", "MonkeyITM-VM", "o87" and the related logos are trademarks of Daniel Oden. Neither licence grants
+permission to use them, except as described in TRADEMARKS.md.
+
+If you redistribute this software or a derivative of it, you must keep this NOTICE file (Apache License 2.0,
+section 4(d)).

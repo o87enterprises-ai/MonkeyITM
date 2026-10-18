@@ -1,0 +1,12 @@
+[Unit]
+Description=MonkeyITM nucleus host health check
+
+[Service]
+Type=oneshot
+User=nucleus
+Group=nucleus
+EnvironmentFile=/etc/nucleus/nucleus.env
+ExecStart=/usr/bin/python3 /opt/monkeyitm/hosted/monitor.py
+# Findings go to the journal; a warning or critical result shows as a failed unit:
+#   journalctl -u nucleus-monitor -n 20     systemctl list-units --failed
+SuccessExitStatus=0

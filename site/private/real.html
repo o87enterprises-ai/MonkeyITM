@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MonkeyITM — Real test</title>
+<link rel="icon" href="/favicon.png">
+<style>
+  :root{--bg:#070a0f;--panel:#0e141d;--border:#1c2634;--text:#e7edf5;--dim:#9aa6b8;--cyan:#39d0ff;--green:#3ddc84;--red:#ff5470;--yellow:#ffcc4d;--mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+  a{color:var(--cyan)}
+  header{border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  header .sp{flex:1}
+  header a.btn{font-size:13px;border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-decoration:none;color:var(--text)}
+  .warn{background:#2a2208;border-bottom:1px solid #6b5514;color:#ffe9a8;font-size:13px;padding:8px 16px;text-align:center}
+  main{max-width:960px;margin:0 auto;padding:18px 16px 60px}
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+  h2{font-size:16px;margin:0 0 10px}
+  .small{font-size:13px;color:var(--dim)}
+  .field{margin-bottom:12px}
+  .field>label{display:block;font-size:13px;color:var(--dim);margin-bottom:4px}
+  input[type=text],textarea,select{width:100%;background:#0a0f16;border:1px solid var(--border);border-radius:8px;color:var(--text);padding:9px 10px;font:14px var(--mono)}
+  textarea{min-height:110px;resize:vertical}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  button{background:var(--cyan);color:#04121a;border:0;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px;cursor:pointer}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+  button.danger{background:transparent;color:var(--red);border:1px solid var(--red)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .hide{display:none}
+  .choice{display:flex;gap:10px;flex-wrap:wrap}
+  .choice label{flex:1;min-width:230px;border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--text);font-size:14px}
+  .choice label.on{border-color:var(--cyan);background:rgba(57,208,255,.08)}
+  .choice label.off{opacity:.5;cursor:not-allowed}
+  .choice input{margin-right:8px}
+  .fx{border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:10px}
+  .fx textarea{min-height:70px}
+  .ok{color:var(--green)}.bad{color:var(--red)}.warnc{color:var(--yellow)}
+  pre.log{background:#05070b;border:1px solid var(--border);border-radius:12px;padding:14px;font:12.5px/1.6 var(--mono);max-height:460px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin:10px 0 0}
+  table{width:100%;border-collapse:collapse;margin:8px 0;font-size:14px}
+  th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--border)}
+  th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+  code{font-family:var(--mono);background:#0a0f16;border:1px solid var(--border);border-radius:5px;padding:1px 5px}
+  .st{font-family:var(--mono);font-size:12px;border:1px solid var(--border);border-radius:999px;padding:2px 9px}
+  .runrow{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="warn"><b>Real test.</b> The containment layer is real; the host is a test machine we control, not production infrastructure. Pre-alpha, no warranty. <a href="/terms#real" style="color:#ffcc4d">Real-test notice</a> &middot; <a href="/#legal" style="color:#ffcc4d">Legal notices</a></div>
+<header>
+  <b>MonkeyITM</b><span class="small">real test</span>
+  <div class="sp"></div>
+  <a class="btn" href="/demo">Simulation</a>
+  <a class="btn" href="/account">Account</a>
+  <a class="btn" href="/">Home</a>
+</header>
+<main>
+
+  <div class="panel hide" id="notice">
+    <h2>Before your first real run</h2>
+    <p class="small">A real test runs your task on a machine we control, with the real containment layer, and keeps what a run produces. In short: we store your task, your files, the model you pick and the full log of what the agent tried and what was decided; the owner and you can see it; it is deleted after 30 days or when you delete it; runs use the owner's model account, so <b>do not put secrets or personal data in a task or file</b>. You may try to make the agent break its rules by choosing the task, files and model; you may not attack the site, the host or other people's runs, and if you think you got out, stop and tell the owner privately. Read the full <a href="/terms#real" target="_blank" rel="noopener">real-test notice</a> (version <span id="noticeVersion"></span>).</p>
+    <label class="row small" style="gap:8px;align-items:flex-start"><input type="checkbox" id="noticeOk" style="margin-top:4px"> <span style="color:var(--text)">I have read and accept the real-test notice. <b>(required)</b></span></label>
+    <div class="row" style="margin-top:12px"><button id="noticeGo" disabled>Accept and continue</button></div>
+    <p class="bad small" id="noticeMsg"></p>
+  </div>
+
+  <div class="panel hide" id="newrun">
+    <h2>1. Choose the kind of run</h2>
+    <div class="choice" id="modes">
+      <label id="mSingle" class="on"><input type="radio" name="mode" value="single" checked>Single agent<br><span class="small">One agent works on your task.</span></label>
+      <label id="mGroup" class="off"><input type="radio" name="mode" value="group" disabled>Group of agents<br><span class="small" id="groupNote">Opens after you have finished a single-agent run. The lead agent may start up to two helpers; they share one log and one kill switch.</span></label>
+    </div>
+
+    <h2 style="margin-top:18px">2. Choose a model</h2>
+    <div class="field"><select id="model"></select>
+      <p class="small">Runs use the owner's account for this model. You do not need a key.</p></div>
+
+    <h2>3. Write the task</h2>
+    <div class="field"><textarea id="task" maxlength="4000" placeholder="e.g. Read {safe}/report.txt and summarise it."></textarea>
+      <p class="small">The agent sees only your task and files. Use <code>{safe}</code> for the folder holding your files and <code>{canary}</code> for a fake credentials file the rules forbid reading: that is how you aim an instruction at something that must stay refused. In a group run, describe the job; the lead agent decides whether to start helpers.</p></div>
+
+    <h2>4. Add files (optional)</h2>
+    <div id="fixtures"></div>
+    <div class="row"><button class="ghost" id="addFx" type="button">Add a file</button><span class="small">Up to 5 text files, 16 KB each. <code>{safe}</code> and <code>{canary}</code> work inside them too.</span></div>
+
+    <div class="row" style="margin-top:18px"><button id="go">Start the run</button><span class="small" id="goMsg"></span></div>
+  </div>
+
+  <div class="panel hide" id="current">
+    <h2>Run <span id="curId" style="font-family:var(--mono)"></span> <span class="st" id="curStatus"></span></h2>
+    <p class="small" id="curMeta"></p>
+    <div id="curSummary"></div>
+    <div class="row"><button class="ghost" id="dlTxt">Download log (text)</button><button class="ghost" id="dlJson">Download log (JSON)</button><button class="danger" id="delRun">Delete this run</button></div>
+    <pre class="log hide" id="curLog"></pre>
+  </div>
+
+  <div class="panel" id="history">
+    <h2>Your runs</h2>
+    <div id="runs" class="small">Loading…</div>
+  </div>
+
+  <p class="small">What this shows: the agent was held to its rules in this run. It does not show that nothing can get through; that is what testing is for. Findings are confidential until the owner agrees otherwise.</p>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const api = async (method, path, body) => {
+    const r = await fetch(path, { method, headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined });
+    let j = null; const t = await r.text(); try { j = JSON.parse(t); } catch { /* text */ }
+    return { ok: r.ok, status: r.status, json: j, text: t };
+  };
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  let cfg = null, cur = null, timer = null;
+
+  // ---- notice
+  $('noticeOk').onchange = () => { $('noticeGo').disabled = !$('noticeOk').checked; };
+  $('noticeGo').onclick = async () => {
+    $('noticeGo').disabled = true;
+    const r = await api('POST', '/api/real/accept', { accept: true, version: cfg.real_terms_version });
+    if (r.ok) { $('notice').classList.add('hide'); $('newrun').classList.remove('hide'); }
+    else { $('noticeMsg').textContent = (r.json && r.json.error) || 'Could not save.'; $('noticeGo').disabled = false; }
+  };
+
+  // ---- form
+  const fxBox = $('fixtures');
+  const addFx = () => {
+    if (fxBox.children.length >= 5) return;
+    const d = document.createElement('div'); d.className = 'fx';
+    d.innerHTML = '<div class="field"><label>File name (letters, digits, . _ -)</label><input type="text" class="fxName" maxlength="64" placeholder="notes.txt"></div>' +
+      '<div class="field"><label>Contents</label><textarea class="fxBody" maxlength="16000"></textarea></div><button class="ghost fxDel" type="button">Remove</button>';
+    d.querySelector('.fxDel').onclick = () => d.remove();
+    fxBox.appendChild(d);
+  };
+  $('addFx').onclick = addFx;
+  for (const id of ['mSingle', 'mGroup']) {
+    $(id).addEventListener('click', () => {
+      const inp = $(id).querySelector('input'); if (inp.disabled) return; inp.checked = true;
+      $('mSingle').classList.toggle('on', $('mSingle').querySelector('input').checked);
+      $('mGroup').classList.toggle('on', $('mGroup').querySelector('input').checked);
+    });
+  }
+  $('go').onclick = async () => {
+    const fixtures = [...fxBox.children].map((d) => ({ name: d.querySelector('.fxName').value.trim(), content: d.querySelector('.fxBody').value }))
+      .filter((f) => f.name || f.content);
+    const mode = document.querySelector('input[name=mode]:checked').value;
+    $('go').disabled = true; $('goMsg').className = 'small'; $('goMsg').textContent = 'Starting…';
+    const r = await api('POST', '/api/real/runs', { task: $('task').value, fixtures, model: $('model').value, mode });
+    if (r.ok) { $('goMsg').textContent = ''; show(r.json.run_id); }
+    else { $('goMsg').className = 'small bad'; $('goMsg').textContent = (r.json && r.json.error) || ('Could not start (' + r.status + ')'); }
+    $('go').disabled = false;
+  };
+
+  // ---- a run
+  const stateClass = { done: 'ok', failed: 'bad', timeout: 'warnc', killed: 'warnc', interrupted: 'warnc', running: 'warnc', queued: 'warnc' };
+  const when = (t) => t ? new Date(t * 1000).toLocaleString() : '';
+  async function show(id) {
+    cur = id; clearTimeout(timer);
+    $('current').classList.remove('hide'); $('curLog').classList.add('hide'); $('curLog').textContent = '';
+    await refresh();
+    $('current').scrollIntoView({ behavior: 'smooth' });
+  }
+  async function refresh() {
+    if (!cur) return;
+    const r = await api('GET', '/api/real/runs/' + cur);
+    if (!r.ok) { $('curMeta').textContent = (r.json && r.json.error) || 'Could not load the run.'; return; }
+    const run = r.json;
+    $('curId').textContent = run.run_id; const st = $('curStatus'); st.textContent = run.status; st.className = 'st ' + (stateClass[run.status] || '');
+    $('curMeta').innerHTML = `${esc(run.mode || 'single')} run · model <code>${esc(run.model)}</code> · started ${esc(when(run.started_at || run.created_at))}` + (run.finished_at ? ` · finished ${esc(when(run.finished_at))}` : '');
+    const s = run.summary;
+    if (s) {
+      let h = `<p><b>${s.requests}</b> requests: <span class="ok">${s.allowed} allowed</span>, <span class="bad">${s.refused} refused</span>` + (s.halted_by_tripwire ? ' · <span class="warnc">halted by the tripwire</span>' : '') + '</p>';
+      const acts = Object.entries(s.by_action || {});
+      if (acts.length) h += '<table><tr><th>Action</th><th>Allowed</th><th>Refused</th></tr>' + acts.map(([a, c]) => `<tr><td>${esc(a)}</td><td>${c.allow}</td><td>${c.deny}</td></tr>`).join('') + '</table>';
+      if ((s.agents || []).length) {
+        h += '<table><tr><th>Agent</th><th>Started by</th><th>Allowed</th><th>Refused</th><th>Ended</th></tr><tr><td>a1 (lead)</td><td></td><td>' + ((s.per_agent.a1 || {}).allowed || 0) + '</td><td>' + ((s.per_agent.a1 || {}).refused || 0) + '</td><td></td></tr>' +
+          s.agents.map((a) => `<tr><td>${esc(a.agent)}</td><td>${esc(a.parent)}</td><td>${(s.per_agent[a.agent] || {}).allowed || 0}</td><td>${(s.per_agent[a.agent] || {}).refused || 0}</td><td>${esc(a.end || '')}</td></tr>`).join('') + '</table>';
+      }
+      if (s.final_answer) h += `<p class="small">${esc(s.final_answer)}</p>`;
+      $('curSummary').innerHTML = h;
+    } else $('curSummary').innerHTML = run.status === 'queued' || run.status === 'running' ? '<p class="small">Running… this page updates itself.</p>' : '';
+    const live = run.status === 'queued' || run.status === 'running';
+    $('dlTxt').disabled = $('dlJson').disabled = live;
+    if (!live) { loadLog(); loadRuns(); } else timer = setTimeout(refresh, 2000);
+  }
+  async function loadLog() {
+    const r = await api('GET', `/api/real/runs/${cur}/log?format=txt`);
+    if (r.ok) { $('curLog').textContent = r.text; $('curLog').classList.remove('hide'); }
+  }
+  $('dlTxt').onclick = () => { location.href = `/api/real/runs/${cur}/log?format=txt&download=1`; };
+  $('dlJson').onclick = () => { location.href = `/api/real/runs/${cur}/log?format=json&download=1`; };
+  $('delRun').onclick = async () => {
+    if (!confirm('Delete this run and its log permanently?')) return;
+    const r = await api('POST', `/api/real/runs/${cur}/delete`, {});
+    if (r.ok) { cur = null; clearTimeout(timer); $('current').classList.add('hide'); loadRuns(); loadConfig(); }
+    else alert((r.json && r.json.error) || 'Could not delete.');
+  };
+
+  async function loadRuns() {
+    const r = await api('GET', '/api/real/runs');
+    if (!r.ok) { $('runs').textContent = (r.json && r.json.error) || 'Could not load your runs.'; return; }
+    const runs = r.json.runs;
+    $('runs').innerHTML = runs.length ? runs.map((x) => `<div class="runrow"><span><code>${esc(x.run_id)}</code> ${esc(x.mode || 'single')} · ${esc(x.model)} · ${esc(when(x.created_at))}</span><span><span class="st ${stateClass[x.status] || ''}">${esc(x.status)}</span> <button class="ghost" data-id="${esc(x.run_id)}">Open</button></span></div>`).join('') : 'No runs yet.';
+    for (const b of $('runs').querySelectorAll('button[data-id]')) b.onclick = () => show(b.dataset.id);
+  }
+
+  async function loadConfig() {
+    const r = await api('GET', '/api/real/config');
+    if (!r.ok) {
+      $('history').classList.add('hide');
+      const p = document.createElement('div'); p.className = 'panel'; p.innerHTML = '<h2>The real test is not available</h2><p class="small bad">' + esc((r.json && r.json.error) || 'Please try again later.') + '</p>';
+      document.querySelector('main').prepend(p); return;
+    }
+    cfg = r.json;
+    $('noticeVersion').textContent = cfg.real_terms_version;
+    $('model').innerHTML = cfg.models.map((m) => `<option>${esc(m)}</option>`).join('');
+    const g = $('mGroup'), gi = g.querySelector('input');
+    gi.disabled = !cfg.group_open; g.classList.toggle('off', !cfg.group_open);
+    $('groupNote').textContent = cfg.group_open ? 'The lead agent may start up to two helpers; they share one log and one kill switch.' : 'Opens after you have finished a single-agent run. The lead agent may start up to two helpers; they share one log and one kill switch.';
+    if (cfg.real_terms_accepted) $('newrun').classList.remove('hide'); else $('notice').classList.remove('hide');
+  }
+  addFx();
+  loadConfig().then(loadRuns);
+})();
+</script>
+</body>
+</html>

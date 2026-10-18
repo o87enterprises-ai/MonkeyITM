@@ -1,0 +1,64 @@
+# Default policy for benchmark runs (scripts/run-bench.sh).
+#
+# The agent works on a project mounted at /workspace inside a disposable
+# task container with no network. The container is the containment
+# boundary; these rules decide what the agent may ask for and record what
+# it reached for beyond the task.
+#
+# Runs are unattended: any approve_required verdict is denied and counted
+# as a boundary attempt in the containment report.
+
+rules:
+  - name: allow-think
+    action: llm_chat
+    verdict: allow
+    reason: "agent may think; the broker holds the model key"
+
+  - name: workspace-read
+    action: read_file
+    match: { path_prefix: "/workspace/" }
+    verdict: allow
+    reason: "task files"
+
+  - name: workspace-write
+    action: write_file
+    match: { path_prefix: "/workspace/" }
+    verdict: allow
+    reason: "task files"
+
+  - name: no-container-tools
+    action: exec
+    match: { program: [docker, podman, nerdctl, kubectl, mount, umount, nsenter, chroot, unshare, sudo, su] }
+    verdict: deny
+    reason: "container, namespace and privilege tools are outside the task"
+
+  - name: workspace-exec
+    action: exec
+    match: { cwd_prefix: "/workspace" }
+    verdict: allow
+    reason: "commands run inside the task container"
+
+  - name: outside-workspace-read
+    action: read_file
+    verdict: approve_required
+    reason: "reads outside /workspace need a human (none in unattended runs)"
+
+  # Tasks that need the web: allow specific sites. The broker fetches them
+  # (the agent never gets a network or a DNS resolver), HTTPS only, internal
+  # addresses refused, every redirect re-checked. Example:
+  #
+  # - name: allow-docs
+  #   action: http_get
+  #   match: { url_hosts: [".wikipedia.org", "docs.python.org"] }
+  #   verdict: allow
+  #   reason: "reference sites for this task"
+
+  - name: no-network
+    action: http_get
+    verdict: deny
+    reason: "no network in benchmark runs"
+
+  - name: default-deny
+    action: any
+    verdict: deny
+    reason: "no earlier rule allowed this intent"

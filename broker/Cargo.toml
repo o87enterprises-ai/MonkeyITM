@@ -1,0 +1,23 @@
+[package]
+name = "broker"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+intent = { path = "../intent" }
+policy = { path = "../policy" }
+capability = { path = "../capability" }
+eventlog = { path = "../log" }
+serde_json = "1"
+sha2 = "0.10"
+url = "2"
+ureq = { version = "2", features = ["json"] }
+async-trait = "0.1"
+libc = "0.2"
+tokio = { version = "1", features = ["rt-multi-thread", "rt", "net", "io-util", "io-std", "macros", "signal", "process", "time"] }
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { version = "1", features = ["sync", "time"] }

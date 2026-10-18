@@ -1,0 +1,3 @@
+# Unlisted site: shared by link only.
+User-agent: *
+Disallow: /

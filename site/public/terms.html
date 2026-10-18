@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Use and Privacy · MonkeyITM-VM</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Terms of Use and Privacy notice for the MonkeyITM-VM test environment.">
+<link rel="icon" href="/favicon.png">
+<link rel="canonical" href="https://monkeyitm-vm.o87enterprises.workers.dev/terms">
+<style>
+  :root{--bg:#070a0f;--panel:#0e141d;--border:#1c2634;--text:#e7edf5;--dim:#9aa6b8;--dimmer:#5a6579;--cyan:#39d0ff;--yellow:#ffcc4d}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+  a{color:var(--cyan)}
+  main{max-width:760px;margin:0 auto;padding:40px 16px 60px}
+  h1{font-size:28px;margin:0 0 6px}
+  h2{font-size:18px;margin:30px 0 6px}
+  p,li{color:var(--dim)}
+  ul{padding-left:20px}
+  .meta{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--dimmer)}
+  .draft{border:1px solid rgba(255,204,77,.45);background:rgba(255,204,77,.07);border-radius:12px;padding:12px 16px;margin:18px 0}
+  .draft b{color:var(--yellow)}
+  b{color:var(--text)}
+</style>
+</head>
+<body>
+<main>
+  <p><a href="/">&larr; MonkeyITM-VM</a></p>
+  <h1>Terms of Use and Privacy notice</h1>
+  <p class="meta">Version 2026-10-17-v2 &middot; Applies to the MonkeyITM-VM test environment and this website</p>
+  <div class="draft"><b>Draft pending legal review.</b> These terms are written in plain language by the project owner and
+  have not yet been reviewed by a lawyer. If they change in substance, you will be asked to accept the new version
+  before you can use the test environment again.</div>
+
+  <h2>1. Who we are and what this is</h2>
+  <p>MonkeyITM-VM is an open-source project owned by Daniel Oden (&ldquo;we&rdquo;, &ldquo;us&rdquo;),
+  presented by Open Edin AI&trade; as an o87 Enterprises&trade; project. The <b>test environment</b> is a gated,
+  simulated command-line environment in which you can point an AI model of your choice at sample tasks and
+  receive a report. It is pre-alpha research software.</p>
+
+  <h2>2. Who may use it</h2>
+  <p>You must be at least 18 years old and able to form a binding contract. If you use it for an organization,
+  you confirm you are authorized to accept these terms for that organization. Access is a privilege we may
+  withdraw at any time.</p>
+
+  <h2>3. Signing in</h2>
+  <p>You sign in with GitHub. We receive and store your GitHub user ID, username and primary verified email
+  address. We do not receive your GitHub password, and we do not keep the temporary GitHub access token after
+  sign-in. Keep your GitHub account secure; you are responsible for activity under your session.</p>
+
+  <h2>4. How the test environment works</h2>
+  <ul>
+    <li><b>It is a simulation.</b> No real computer, file system, network or third-party service is controlled
+    through it. Results describe behavior inside the simulation only.</li>
+    <li><b>A containment layer is always present.</b> Every action your agent attempts is mediated, checked and
+    recorded by a containment layer before any result is returned. Requests may be allowed, modified or refused,
+    and you will be told when and why a request was refused.</li>
+    <li><b>The software is open source.</b> The containment layer's source code is public (Apache-2.0; this hosted
+    service is AGPL-3.0). These terms cover your use of <b>our hosted service</b>, not the code.</li>
+  </ul>
+
+  <h2>5. Your license, and what you may not do</h2>
+  <p>We grant you a limited, personal, revocable, non-exclusive, non-transferable permission to use the test
+  environment for evaluating AI agents, for as long as we make it available. You may not, and may not help anyone
+  else to:</p>
+  <ul>
+    <li>attack, overload, scan or attempt to access our servers, accounts or data, or anyone else&rsquo;s,
+    beyond ordinary use of the simulation through its interface, unless you are an invited security tester acting
+    under a signed testing agreement (test the code itself freely on your own machines);</li>
+    <li>use automated means to create accounts, share accounts, or resell access;</li>
+    <li>submit unlawful, infringing, harmful or abusive content, or use the environment to develop tools for
+    harming real systems or people.</li>
+  </ul>
+  <p>You may share your own session report and score, as long as you identify them as results from the
+  MonkeyITM-VM simulated test environment.</p>
+
+  <h2>6. Your model and your API key</h2>
+  <ul>
+    <li>If you connect your own AI model, your API key is entered in your browser and sent <b>directly from your
+    browser to your model provider</b>. It is not sent to or stored by us.</li>
+    <li>Your key may be kept in your browser for convenience only if you choose. Use a key with a spending limit,
+    and do not use a key you are not allowed to use.</li>
+    <li>You are responsible for your provider&rsquo;s charges and for complying with your provider&rsquo;s terms.
+    We are not affiliated with any model provider.</li>
+    <li>The commands your agent proposes, and the results it receives, pass through our servers so the
+    containment layer can process them.</li>
+  </ul>
+
+  <h2>7. Feedback</h2>
+  <p>If you send us ideas, suggestions or feedback, you agree we may use them freely, without obligation,
+  payment or credit. Please do not send confidential material unless we have both signed a non-disclosure
+  agreement.</p>
+
+  <h2>8. Ownership</h2>
+  <p>Copyright in the software belongs to Daniel Oden; the software is licensed to everyone under its open-source
+  licences. The names and logos are trademarks of Daniel Oden. Nothing in these terms transfers any ownership to you.
+  Your agent&rsquo;s outputs and your prompts remain yours, subject to the license in section 10.</p>
+
+  <h2>9. Privacy: what we collect and why</h2>
+  <ul>
+    <li><b>Account data:</b> GitHub user ID, username, primary verified email, sign-up and last sign-in times.
+    Used to operate your account and to keep the environment secure.</li>
+    <li><b>Consent records:</b> which version of these terms you accepted and when, and whether you opted in to
+    emails. Kept as evidence of your choices.</li>
+    <li><b>Session data:</b> the commands your agent proposes, the results and refusals, and your scores. Used to
+    produce your report, and to operate, secure and improve the environment.</li>
+    <li><b>Session cookie:</b> one strictly necessary cookie keeps you signed in. We use no advertising or
+    analytics cookies.</li>
+    <li><b>Hosting:</b> our host, Cloudflare, processes standard request data such as IP address and browser
+    details to deliver the service and protect it from abuse.</li>
+  </ul>
+  <p>We do not sell your personal information. We do not share it except with service providers that help us
+  run the service, if required by law, or as part of a transfer of the project, in which case these terms
+  continue to apply.</p>
+
+  <h2>10. Session data license and retention</h2>
+  <p>You give us a worldwide, royalty-free license to store and use your session data (section 9) to run,
+  secure, analyze and improve the project, including in aggregate or anonymized statistics. We will not
+  publish your identity alongside your session data without your permission. We keep account data until you
+  delete your account; we may keep anonymized or aggregate data after that.</p>
+
+  <h2>11. Emails</h2>
+  <p>We send account-related messages when necessary. Product updates and developer-network invitations are
+  sent only if you opt in, and you can opt out at any time on your account page or through the unsubscribe link
+  in any such email.</p>
+
+  <h2>12. Your choices and rights</h2>
+  <p>On your <a href="/account">account page</a> you can change your email preference or permanently delete your
+  account. You may also ask us what data we hold about you. Depending on where you live, you may have further
+  rights under local law; we will honor them as the law requires.</p>
+
+  <h2>13. No warranty</h2>
+  <p>The test environment and website are provided &ldquo;as is&rdquo; and &ldquo;as available&rdquo;, without
+  warranties of any kind, express or implied, including merchantability, fitness for a particular purpose,
+  accuracy, availability, security and non-infringement, to the fullest extent permitted by law.</p>
+
+  <h2>14. Not a safety certification</h2>
+  <p>Scores, grades and reports are experimental and reflect behavior in a simulation. They are not a safety,
+  security, alignment or compliance certification, are not endorsed by any benchmark author or standards body,
+  and must not be relied on as the only basis for deploying any AI system.</p>
+
+  <h2>15. Limitation of liability</h2>
+  <p>To the fullest extent permitted by law, we are not liable for any indirect, incidental, special,
+  consequential or punitive damages, or for lost profits, data, model provider charges or goodwill, arising
+  from your use of the test environment or website. Our total liability for any claim is limited to one hundred
+  US dollars (US$100). Some jurisdictions do not allow these limits, so they may not fully apply to you.</p>
+
+  <h2>16. Your responsibility to us</h2>
+  <p>You agree to cover our reasonable losses and costs arising from your breach of these terms or your misuse of
+  the test environment, to the extent permitted by law.</p>
+
+  <h2>17. No offer or relationship</h2>
+  <p>Using the test environment does not create any partnership, employment, agency, investment or other
+  relationship, and nothing on the site is an offer of equity, payment, credit or a role. Any such arrangement
+  requires a separate written agreement signed by the owner.</p>
+
+  <h2>18. Suspension and ending</h2>
+  <p>We may suspend or end your access at any time, with or without notice, including for breach of these terms,
+  and we may change or discontinue the test environment. You may stop using it and delete your account at any
+  time. Sections 4, 5, 7, 8, 10 and 13 to 19 survive the end of your access.</p>
+
+  <h2>19. Changes, law and contact</h2>
+  <p>We may update these terms. A substantive change gets a new version number, and you must accept it before
+  using the test environment again. Governing law and venue will be specified in a future version after legal
+  review. Questions and data requests: through the
+  <a href="https://github.com/o87enterprises-ai">o87 Enterprises organization page</a>.</p>
+
+  <h2 id="real">20. The real test (draft, pending review by counsel)</h2>
+  <p>Invited people may run real tests of their own agents on a machine we control. This section is a short
+  notice, not a complete agreement; anything beyond it needs a signed agreement. Its version is shown on the
+  real-test screen and you must accept it before your first real run.</p>
+  <ul>
+    <li><b>What we store.</b> For each real run: the task text and files you submit, the model you chose, and the
+    containment layer's record of every request the agent made and the decision on it (the log), plus a summary.
+    Nothing else about you is added beyond the account data described above.</li>
+    <li><b>Who sees it.</b> You, and the owner for running, securing and improving the service. It is not
+    published or sold. The model provider we call on your behalf receives the prompts the agent sends.</li>
+    <li><b>Our key, not yours.</b> Real runs use the owner's model account within fixed limits. You do not send a
+    key. Do not put secrets, personal data or others' confidential information in a task or file.</li>
+    <li><b>Limits.</b> One run at a time per person, a daily number of runs, a time limit and a turn limit per
+    run. We may stop a run, refuse one, or halt the service at any time.</li>
+    <li><b>Deletion.</b> Runs and logs are deleted after 30 days, and sooner when you delete a run or your
+    account.</li>
+    <li><b>Testing the containment.</b> You may try to make the agent do what its rules forbid, by choosing the
+    task, the files and the model. You may not attack the site, the host or its network, other people's runs,
+    or overload the service, and you may not look further after a suspected escape: stop, keep the run id and
+    tell the owner privately. Findings are confidential until the owner agrees otherwise.</li>
+    <li><b>No guarantee.</b> A run that ends without a breach shows only that those attempts were refused. Logs are
+    provided as they are, and the service may be wrong, slow or unavailable.</li>
+  </ul>
+
+  <p class="meta" style="margin-top:30px">&copy; 2026 Daniel Oden. Open source. &middot; <a href="/#legal">Site legal notices</a></p>
+</main>
+</body>
+</html>

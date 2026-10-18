@@ -1,0 +1,39 @@
+
+# Data / runtime
+# Env
+# IDE / OS
+# Python
+# Rust
+**/*.rs.bk
+*.db
+*.db-journal
+*.key
+*.pem
+*.pyc
+*.sqlite
+*.sqlite3
+*.swp
+.DS_Store
+.env
+.idea/
+.venv/
+.vscode/
+/broker.sock
+/tmp/
+__pycache__/
+broker.db*
+broker.db-shm
+broker.db-wal
+target/
+venv/
+site/.wrangler/
+logs/
+runs/
+
+# patch script backups
+*.bak
+apply-patches.py
+.wrangler/
+REVIEW_HANDOFF_2026-10-10.md
+.claude/
+*.zip
